@@ -90,10 +90,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "One intelligent platform for students and teachers: classes, assignments, an AI tutor, attendance and analytics.",
+          "EduVerse connects students and teachers in one intelligent platform — classes, assignments, an AI tutor, attendance, and analytics in a clean, modern experience.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "EduVerse — AI-Powered Smart Learning Platform" },
+      { name: "twitter:description", content: "EduVerse connects students and teachers in one intelligent platform — classes, assignments, an AI tutor, attendance, and analytics in a clean, modern experience." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/6a00f13f-9dc0-46ae-b1d6-71ddad96dc28/id-preview-2917b72e--58706b27-9e2a-494f-be8c-b65493ee08d2.lovable.app-1783779285628.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/6a00f13f-9dc0-46ae-b1d6-71ddad96dc28/id-preview-2917b72e--58706b27-9e2a-494f-be8c-b65493ee08d2.lovable.app-1783779285628.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
