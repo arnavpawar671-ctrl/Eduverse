@@ -16,7 +16,6 @@ import {
 import { useSession, useProfile, useRole } from "@/hooks/useAuth";
 import { PageHeader, StatCard, QuickCard } from "@/components/dashboard-bits";
 import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
