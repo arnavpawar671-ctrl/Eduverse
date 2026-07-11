@@ -223,4 +223,3 @@ function TeacherDashboard({ onNav }: { onNav: (to: string) => void }) {
   );
 }
 
-export { Progress };
