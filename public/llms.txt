@@ -1,0 +1,9 @@
+# EduVerse
+
+> EduVerse is an AI-powered smart learning platform that connects students and teachers with classes, assignments, an AI tutor, attendance and analytics in one clean, secure experience.
+
+## Pages
+- [Home](/): Overview of EduVerse — features, roles and platforms.
+
+## Optional
+- [Sign in](/auth): Sign in or create a student, teacher or admin account.
