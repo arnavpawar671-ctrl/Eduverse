@@ -58,3 +58,11 @@ Glassmorphism effects
 Rounded Cards
 Clean Dashboard
 Smooth transitions
+<div align="center">
+⭐ If you like EduVerse, consider giving this repository a star!
+
+Built with ❤️ using Flutter & Firebase
+
+Empowering Education Through AI.
+
+</div>
