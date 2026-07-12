@@ -19,11 +19,19 @@ export const Route = createFileRoute("/_authenticated/profile")({
   component: ProfilePage,
 });
 
-const BADGES = [
-  { label: "7-Day Streak", icon: Flame, tone: "bg-warning/10 text-warning" },
-  { label: "Top Scorer", icon: Award, tone: "bg-success/10 text-success" },
-  { label: "Fast Learner", icon: Zap, tone: "bg-primary/10 text-primary" },
-  { label: "Coin Master", icon: Coins, tone: "bg-secondary/10 text-secondary" },
+type Badge = {
+  label: string;
+  icon: typeof Flame;
+  tone: string;
+  earned: (p: { xp: number; coins: number; streak: number }) => boolean;
+  goal: string;
+};
+
+const BADGES: Badge[] = [
+  { label: "7-Day Streak", icon: Flame, tone: "bg-warning/10 text-warning", earned: (p) => p.streak >= 7, goal: "Reach a 7-day streak" },
+  { label: "Rising Star", icon: Award, tone: "bg-success/10 text-success", earned: (p) => p.xp >= 500, goal: "Earn 500 XP" },
+  { label: "Fast Learner", icon: Zap, tone: "bg-primary/10 text-primary", earned: (p) => p.xp >= 100, goal: "Earn 100 XP" },
+  { label: "Coin Master", icon: Coins, tone: "bg-secondary/10 text-secondary", earned: (p) => p.coins >= 100, goal: "Collect 100 coins" },
 ];
 
 function ProfilePage() {
