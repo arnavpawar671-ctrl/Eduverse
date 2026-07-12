@@ -19,11 +19,19 @@ export const Route = createFileRoute("/_authenticated/profile")({
   component: ProfilePage,
 });
 
-const BADGES = [
-  { label: "7-Day Streak", icon: Flame, tone: "bg-warning/10 text-warning" },
-  { label: "Top Scorer", icon: Award, tone: "bg-success/10 text-success" },
-  { label: "Fast Learner", icon: Zap, tone: "bg-primary/10 text-primary" },
-  { label: "Coin Master", icon: Coins, tone: "bg-secondary/10 text-secondary" },
+type Badge = {
+  label: string;
+  icon: typeof Flame;
+  tone: string;
+  earned: (p: { xp: number; coins: number; streak: number }) => boolean;
+  goal: string;
+};
+
+const BADGES: Badge[] = [
+  { label: "7-Day Streak", icon: Flame, tone: "bg-warning/10 text-warning", earned: (p) => p.streak >= 7, goal: "Reach a 7-day streak" },
+  { label: "Rising Star", icon: Award, tone: "bg-success/10 text-success", earned: (p) => p.xp >= 500, goal: "Earn 500 XP" },
+  { label: "Fast Learner", icon: Zap, tone: "bg-primary/10 text-primary", earned: (p) => p.xp >= 100, goal: "Earn 100 XP" },
+  { label: "Coin Master", icon: Coins, tone: "bg-secondary/10 text-secondary", earned: (p) => p.coins >= 100, goal: "Collect 100 coins" },
 ];
 
 function ProfilePage() {
@@ -108,15 +116,27 @@ function ProfilePage() {
         <Card className="rounded-2xl border-border p-6 shadow-soft lg:col-span-3">
           <h3 className="mb-4 font-semibold">Achievements</h3>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {BADGES.map((b) => (
-              <div key={b.label} className="flex flex-col items-center gap-2 rounded-2xl border border-border p-4 text-center">
-                <span className={`flex h-12 w-12 items-center justify-center rounded-xl ${b.tone}`}>
-                  <b.icon className="h-6 w-6" />
-                </span>
-                <span className="text-xs font-medium">{b.label}</span>
-              </div>
-            ))}
+            {BADGES.map((b) => {
+              const stats = { xp: profile?.xp ?? 0, coins: profile?.coins ?? 0, streak: profile?.streak ?? 0 };
+              const earned = b.earned(stats);
+              return (
+                <div
+                  key={b.label}
+                  className={`flex flex-col items-center gap-2 rounded-2xl border border-border p-4 text-center transition-opacity ${
+                    earned ? "" : "opacity-40 grayscale"
+                  }`}
+                  title={earned ? "Unlocked" : b.goal}
+                >
+                  <span className={`flex h-12 w-12 items-center justify-center rounded-xl ${b.tone}`}>
+                    <b.icon className="h-6 w-6" />
+                  </span>
+                  <span className="text-xs font-medium">{b.label}</span>
+                  <span className="text-[10px] text-muted-foreground">{earned ? "Unlocked" : b.goal}</span>
+                </div>
+              );
+            })}
           </div>
+
         </Card>
       </div>
     </div>
