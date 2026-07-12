@@ -116,15 +116,27 @@ function ProfilePage() {
         <Card className="rounded-2xl border-border p-6 shadow-soft lg:col-span-3">
           <h3 className="mb-4 font-semibold">Achievements</h3>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {BADGES.map((b) => (
-              <div key={b.label} className="flex flex-col items-center gap-2 rounded-2xl border border-border p-4 text-center">
-                <span className={`flex h-12 w-12 items-center justify-center rounded-xl ${b.tone}`}>
-                  <b.icon className="h-6 w-6" />
-                </span>
-                <span className="text-xs font-medium">{b.label}</span>
-              </div>
-            ))}
+            {BADGES.map((b) => {
+              const stats = { xp: profile?.xp ?? 0, coins: profile?.coins ?? 0, streak: profile?.streak ?? 0 };
+              const earned = b.earned(stats);
+              return (
+                <div
+                  key={b.label}
+                  className={`flex flex-col items-center gap-2 rounded-2xl border border-border p-4 text-center transition-opacity ${
+                    earned ? "" : "opacity-40 grayscale"
+                  }`}
+                  title={earned ? "Unlocked" : b.goal}
+                >
+                  <span className={`flex h-12 w-12 items-center justify-center rounded-xl ${b.tone}`}>
+                    <b.icon className="h-6 w-6" />
+                  </span>
+                  <span className="text-xs font-medium">{b.label}</span>
+                  <span className="text-[10px] text-muted-foreground">{earned ? "Unlocked" : b.goal}</span>
+                </div>
+              );
+            })}
           </div>
+
         </Card>
       </div>
     </div>
