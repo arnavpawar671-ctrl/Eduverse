@@ -55,7 +55,7 @@ Goals: ${data.goals}`;
         user_id: context.userId,
         title: data.title,
         goals: data.goals,
-        plan: plan as object,
+        plan: plan as never,
       })
       .select()
       .single();
