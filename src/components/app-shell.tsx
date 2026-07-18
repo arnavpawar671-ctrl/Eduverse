@@ -8,6 +8,7 @@ import { navForRole, ROLE_LABEL } from "@/lib/nav";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { NotificationBell } from "@/components/notification-bell";
 
 function initials(name?: string | null) {
   if (!name) return "EV";
@@ -105,7 +106,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <span className="hidden items-center gap-1.5 rounded-full bg-warning/10 px-3 py-1.5 text-xs font-semibold text-warning sm:inline-flex">
                   <Flame className="h-3.5 w-3.5" /> {profile.streak} day streak
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary/10 px-3 py-1.5 text-xs font-semibold text-secondary">
+                <span className="hidden items-center gap-1.5 rounded-full bg-secondary/10 px-3 py-1.5 text-xs font-semibold text-secondary sm:inline-flex">
                   <Coins className="h-3.5 w-3.5" /> {profile.coins}
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary">
@@ -115,6 +116,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             ) : (
               <Skeleton className="h-8 w-24 rounded-full" />
             )}
+            <NotificationBell />
           </div>
         </div>
       </header>
