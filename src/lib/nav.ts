@@ -8,6 +8,10 @@ import {
   Users,
   BarChart3,
   User,
+  Megaphone,
+  FolderOpen,
+  MessagesSquare,
+  Target,
   type LucideIcon,
 } from "lucide-react";
 
@@ -22,7 +26,11 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard, roles: ["student", "teacher", "admin"] },
   { label: "Classes", to: "/classes", icon: BookOpen, roles: ["student", "teacher", "admin"] },
   { label: "Assignments", to: "/assignments", icon: ClipboardList, roles: ["student", "teacher", "admin"] },
+  { label: "Announcements", to: "/announcements", icon: Megaphone, roles: ["student", "teacher", "admin"] },
+  { label: "Materials", to: "/materials", icon: FolderOpen, roles: ["student", "teacher", "admin"] },
+  { label: "Discussions", to: "/discussions", icon: MessagesSquare, roles: ["student", "teacher", "admin"] },
   { label: "AI Tutor", to: "/tutor", icon: Sparkles, roles: ["student", "teacher", "admin"] },
+  { label: "Study Planner", to: "/planner", icon: Target, roles: ["student", "teacher", "admin"] },
   { label: "Calendar", to: "/calendar", icon: CalendarDays, roles: ["student", "teacher", "admin"] },
   { label: "Students", to: "/students", icon: Users, roles: ["teacher", "admin"] },
   { label: "Analytics", to: "/analytics", icon: BarChart3, roles: ["teacher", "admin"] },
