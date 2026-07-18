@@ -14,6 +14,41 @@ export type Database = {
   }
   public: {
     Tables: {
+      announcements: {
+        Row: {
+          author_id: string
+          body: string
+          class_id: string | null
+          created_at: string
+          id: string
+          title: string
+        }
+        Insert: {
+          author_id: string
+          body: string
+          class_id?: string | null
+          created_at?: string
+          id?: string
+          title: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          class_id?: string | null
+          created_at?: string
+          id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "announcements_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       assignments: {
         Row: {
           class_id: string
@@ -167,6 +202,121 @@ export type Database = {
         }
         Relationships: []
       }
+      discussion_messages: {
+        Row: {
+          author_id: string
+          body: string
+          class_id: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          author_id: string
+          body: string
+          class_id: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          class_id?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discussion_messages_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      materials: {
+        Row: {
+          class_id: string
+          created_at: string
+          description: string | null
+          file_path: string | null
+          id: string
+          kind: string
+          mime: string | null
+          size_bytes: number | null
+          title: string
+          uploader_id: string
+          url: string | null
+        }
+        Insert: {
+          class_id: string
+          created_at?: string
+          description?: string | null
+          file_path?: string | null
+          id?: string
+          kind: string
+          mime?: string | null
+          size_bytes?: number | null
+          title: string
+          uploader_id: string
+          url?: string | null
+        }
+        Update: {
+          class_id?: string
+          created_at?: string
+          description?: string | null
+          file_path?: string | null
+          id?: string
+          kind?: string
+          mime?: string | null
+          size_bytes?: number | null
+          title?: string
+          uploader_id?: string
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "materials_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          link: string | null
+          read: boolean
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read?: boolean
+          title: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read?: boolean
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -212,6 +362,33 @@ export type Database = {
           streak?: number
           updated_at?: string
           xp?: number
+        }
+        Relationships: []
+      }
+      study_plans: {
+        Row: {
+          created_at: string
+          goals: string | null
+          id: string
+          plan: Json
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          goals?: string | null
+          id?: string
+          plan: Json
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          goals?: string | null
+          id?: string
+          plan?: Json
+          title?: string
+          user_id?: string
         }
         Relationships: []
       }
