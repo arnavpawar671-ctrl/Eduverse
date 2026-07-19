@@ -157,3 +157,45 @@ export function AppShell({ children }: { children: ReactNode }) {
     </div>
   );
 }
+
+function SearchTrigger() {
+  return (
+    <button
+      onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }))}
+      className="hidden items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1.5 text-xs text-muted-foreground hover:bg-accent sm:inline-flex"
+      aria-label="Search"
+    >
+      <Search className="h-3.5 w-3.5" /> Search <kbd className="ml-2 rounded bg-muted px-1.5 py-0.5 text-[10px]">⌘K</kbd>
+    </button>
+  );
+}
+
+function ThemeToggle() {
+  const { theme, toggle } = useTheme();
+  return (
+    <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
+      {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+    </Button>
+  );
+}
+
+function LanguageMenu() {
+  const { lang, setLang } = useI18n();
+  const langs: { code: Lang; label: string }[] = [
+    { code: "en", label: "English" }, { code: "hi", label: "हिन्दी" }, { code: "es", label: "Español" },
+  ];
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" aria-label="Language"><Languages className="h-4 w-4" /></Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        {langs.map((l) => (
+          <DropdownMenuItem key={l.code} onClick={() => setLang(l.code)} className={lang === l.code ? "font-semibold" : ""}>
+            {l.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
