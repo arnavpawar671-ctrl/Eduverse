@@ -22,7 +22,7 @@ function DecksPage() {
   const [study, setStudy] = useState<DeckRow | null>(null);
   return (
     <div>
-      <PageHeader title="Flashcards" subtitle="AI-crafted decks for quick memorization." actions={<CreateDeck />} />
+      <PageHeader title="Flashcards" subtitle="AI-crafted decks for quick memorization." action={<CreateDeck />} />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {decks?.map((d) => (
           <DeckCard key={d.id} d={d} onStudy={() => setStudy(d)} />

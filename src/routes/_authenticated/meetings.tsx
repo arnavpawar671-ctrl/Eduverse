@@ -32,7 +32,7 @@ function MeetingsPage() {
       <PageHeader
         title="Live Classes"
         subtitle="Free HD video rooms powered by Jitsi. No sign-in needed."
-        actions={isTeacher ? <StartMeeting /> : undefined}
+        action={isTeacher ? <StartMeeting /> : undefined}
       />
       <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-muted-foreground"><Radio className="h-4 w-4 text-destructive animate-pulse" /> Live now</h3>
       <div className="mb-8 grid gap-4 md:grid-cols-2">

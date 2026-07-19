@@ -28,7 +28,7 @@ function QuizzesPage() {
       <PageHeader
         title="Quizzes"
         subtitle="AI-generated quizzes. Take them to earn XP."
-        actions={<CreateQuiz />}
+        action={<CreateQuiz />}
       />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {quizzes?.map((q) => (
