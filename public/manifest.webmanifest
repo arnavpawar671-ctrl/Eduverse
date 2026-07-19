@@ -1,0 +1,12 @@
+{
+  "name": "EduVerse — AI Learning Platform",
+  "short_name": "EduVerse",
+  "description": "AI-powered smart learning platform for students and teachers.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#4a90e2",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "64x64", "type": "image/x-icon" }
+  ]
+}
