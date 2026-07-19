@@ -234,6 +234,82 @@ export type Database = {
           },
         ]
       }
+      flashcard_decks: {
+        Row: {
+          cards: Json
+          class_id: string | null
+          created_at: string
+          id: string
+          owner_id: string
+          title: string
+          topic: string | null
+        }
+        Insert: {
+          cards?: Json
+          class_id?: string | null
+          created_at?: string
+          id?: string
+          owner_id: string
+          title: string
+          topic?: string | null
+        }
+        Update: {
+          cards?: Json
+          class_id?: string | null
+          created_at?: string
+          id?: string
+          owner_id?: string
+          title?: string
+          topic?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flashcard_decks_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      live_meetings: {
+        Row: {
+          class_id: string
+          ended_at: string | null
+          id: string
+          room_name: string
+          started_at: string
+          teacher_id: string
+          title: string
+        }
+        Insert: {
+          class_id: string
+          ended_at?: string | null
+          id?: string
+          room_name: string
+          started_at?: string
+          teacher_id: string
+          title: string
+        }
+        Update: {
+          class_id?: string
+          ended_at?: string | null
+          id?: string
+          room_name?: string
+          started_at?: string
+          teacher_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "live_meetings_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       materials: {
         Row: {
           class_id: string
@@ -365,6 +441,82 @@ export type Database = {
         }
         Relationships: []
       }
+      quiz_attempts: {
+        Row: {
+          answers: Json
+          created_at: string
+          id: string
+          quiz_id: string
+          score: number
+          total: number
+          user_id: string
+        }
+        Insert: {
+          answers?: Json
+          created_at?: string
+          id?: string
+          quiz_id: string
+          score?: number
+          total?: number
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          id?: string
+          quiz_id?: string
+          score?: number
+          total?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_attempts_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quizzes: {
+        Row: {
+          class_id: string | null
+          created_at: string
+          id: string
+          owner_id: string
+          questions: Json
+          title: string
+          topic: string | null
+        }
+        Insert: {
+          class_id?: string | null
+          created_at?: string
+          id?: string
+          owner_id: string
+          questions?: Json
+          title: string
+          topic?: string | null
+        }
+        Update: {
+          class_id?: string | null
+          created_at?: string
+          id?: string
+          owner_id?: string
+          questions?: Json
+          title?: string
+          topic?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quizzes_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       study_plans: {
         Row: {
           created_at: string
@@ -466,6 +618,10 @@ export type Database = {
     }
     Functions: {
       assignment_class_id: { Args: { _assignment_id: string }; Returns: string }
+      award_xp: {
+        Args: { _amount: number; _user_id: string }
+        Returns: undefined
+      }
       gen_join_code: { Args: never; Returns: string }
       get_primary_role: {
         Args: { _user_id: string }

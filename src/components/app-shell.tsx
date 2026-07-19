@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { GraduationCap, LogOut, Flame, Coins } from "lucide-react";
+import { GraduationCap, LogOut, Flame, Coins, Search, Moon, Sun, Languages } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession, useProfile, useRole } from "@/hooks/useAuth";
 import { navForRole, ROLE_LABEL } from "@/lib/nav";
@@ -9,6 +9,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { NotificationBell } from "@/components/notification-bell";
+import { CommandPalette } from "@/components/command-palette";
+import { useTheme } from "@/hooks/useTheme";
+import { useI18n, type Lang } from "@/lib/i18n";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 function initials(name?: string | null) {
   if (!name) return "EV";
@@ -100,11 +104,12 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
           <div className="hidden lg:block" />
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            <SearchTrigger />
             {profile ? (
               <>
                 <span className="hidden items-center gap-1.5 rounded-full bg-warning/10 px-3 py-1.5 text-xs font-semibold text-warning sm:inline-flex">
-                  <Flame className="h-3.5 w-3.5" /> {profile.streak} day streak
+                  <Flame className="h-3.5 w-3.5" /> {profile.streak}
                 </span>
                 <span className="hidden items-center gap-1.5 rounded-full bg-secondary/10 px-3 py-1.5 text-xs font-semibold text-secondary sm:inline-flex">
                   <Coins className="h-3.5 w-3.5" /> {profile.coins}
@@ -116,10 +121,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             ) : (
               <Skeleton className="h-8 w-24 rounded-full" />
             )}
+            <LanguageMenu />
+            <ThemeToggle />
             <NotificationBell />
           </div>
         </div>
       </header>
+      <CommandPalette />
 
       {/* Main */}
       <main className="px-4 pb-28 pt-20 sm:px-6 lg:pb-10 lg:pl-[17.5rem] lg:pr-8">
@@ -147,5 +155,47 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </nav>
     </div>
+  );
+}
+
+function SearchTrigger() {
+  return (
+    <button
+      onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }))}
+      className="hidden items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1.5 text-xs text-muted-foreground hover:bg-accent sm:inline-flex"
+      aria-label="Search"
+    >
+      <Search className="h-3.5 w-3.5" /> Search <kbd className="ml-2 rounded bg-muted px-1.5 py-0.5 text-[10px]">⌘K</kbd>
+    </button>
+  );
+}
+
+function ThemeToggle() {
+  const { theme, toggle } = useTheme();
+  return (
+    <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
+      {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+    </Button>
+  );
+}
+
+function LanguageMenu() {
+  const { lang, setLang } = useI18n();
+  const langs: { code: Lang; label: string }[] = [
+    { code: "en", label: "English" }, { code: "hi", label: "हिन्दी" }, { code: "es", label: "Español" },
+  ];
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" aria-label="Language"><Languages className="h-4 w-4" /></Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        {langs.map((l) => (
+          <DropdownMenuItem key={l.code} onClick={() => setLang(l.code)} className={lang === l.code ? "font-semibold" : ""}>
+            {l.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
