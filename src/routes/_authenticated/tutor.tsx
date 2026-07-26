@@ -27,14 +27,27 @@ const SUGGESTIONS = [
 
 function TutorPage() {
   const ask = useServerFn(askTutor);
+  const search = Route.useSearch();
+  const navigate = Route.useNavigate();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+  const autoSentRef = useRef(false);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
+
+  useEffect(() => {
+    if (autoSentRef.current) return;
+    const q = search.q?.trim();
+    if (!q) return;
+    autoSentRef.current = true;
+    void send(q);
+    navigate({ to: "/tutor", search: {}, replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search.q]);
 
   async function send(text: string) {
     const content = text.trim();
