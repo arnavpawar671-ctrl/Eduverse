@@ -3,12 +3,16 @@ import { useRef, useState, useEffect } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Sparkles, Send, Loader2, User as UserIcon } from "lucide-react";
 import { toast } from "sonner";
+import { z } from "zod";
 import { askTutor } from "@/lib/tutor.functions";
 import { PageHeader } from "@/components/dashboard-bits";
 import { Button } from "@/components/ui/button";
 
+const tutorSearchSchema = z.object({ q: z.string().optional() });
+
 export const Route = createFileRoute("/_authenticated/tutor")({
   head: () => ({ meta: [{ title: "AI Tutor — EduVerse" }] }),
+  validateSearch: tutorSearchSchema,
   component: TutorPage,
 });
 
@@ -23,14 +27,27 @@ const SUGGESTIONS = [
 
 function TutorPage() {
   const ask = useServerFn(askTutor);
+  const search = Route.useSearch();
+  const navigate = Route.useNavigate();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+  const autoSentRef = useRef(false);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
+
+  useEffect(() => {
+    if (autoSentRef.current) return;
+    const q = search.q?.trim();
+    if (!q) return;
+    autoSentRef.current = true;
+    void send(q);
+    navigate({ to: "/tutor", search: {}, replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search.q]);
 
   async function send(text: string) {
     const content = text.trim();

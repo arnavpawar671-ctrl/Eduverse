@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
@@ -134,6 +134,7 @@ function TakeQuizDialog({ quiz, onClose }: { quiz: QuizRow; onClose: () => void 
   const [answers, setAnswers] = useState<number[]>([]);
   const [done, setDone] = useState(false);
   const submit = useSubmitQuizAttempt();
+  const navigate = useNavigate();
 
   const q: QuizQuestion | undefined = quiz.questions[idx];
   const score = answers.reduce((s, a, i) => s + (a === quiz.questions[i]?.answer ? 1 : 0), 0);
@@ -146,6 +147,19 @@ function TakeQuizDialog({ quiz, onClose }: { quiz: QuizRow; onClose: () => void 
       const finalScore = next.reduce((s, a, k) => s + (a === quiz.questions[k]?.answer ? 1 : 0), 0);
       submit.mutate({ quiz_id: quiz.id, answers: next, score: finalScore, total: quiz.questions.length });
     } else setIdx(idx + 1);
+  }
+
+  function explain(qq: QuizQuestion, chosen: number) {
+    const prompt = `I got a quiz question wrong. Please explain step-by-step why the correct answer is right and where my thinking went wrong.
+
+Question: ${qq.q}
+Options:
+${qq.options.map((o, i) => `${String.fromCharCode(65 + i)}. ${o}`).join("\n")}
+My answer: ${qq.options[chosen] ?? "(none)"}
+Correct answer: ${qq.options[qq.answer]}
+${qq.explain ? `Hint: ${qq.explain}` : ""}`;
+    navigate({ to: "/tutor", search: { q: prompt } });
+    onClose();
   }
 
   return (
@@ -176,6 +190,16 @@ function TakeQuizDialog({ quiz, onClose }: { quiz: QuizRow; onClose: () => void 
                       <div className="flex-1">
                         <p className="font-medium">{qq.q}</p>
                         <p className="text-xs text-muted-foreground">Correct: {qq.options[qq.answer]}</p>
+                        {!ok && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="mt-2 h-7 text-xs"
+                            onClick={() => explain(qq, answers[i])}
+                          >
+                            <Sparkles className="mr-1 h-3 w-3" /> Explain with AI Tutor
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>
