@@ -3,12 +3,16 @@ import { useRef, useState, useEffect } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Sparkles, Send, Loader2, User as UserIcon } from "lucide-react";
 import { toast } from "sonner";
+import { z } from "zod";
 import { askTutor } from "@/lib/tutor.functions";
 import { PageHeader } from "@/components/dashboard-bits";
 import { Button } from "@/components/ui/button";
 
+const tutorSearchSchema = z.object({ q: z.string().optional() });
+
 export const Route = createFileRoute("/_authenticated/tutor")({
   head: () => ({ meta: [{ title: "AI Tutor — EduVerse" }] }),
+  validateSearch: tutorSearchSchema,
   component: TutorPage,
 });
 
