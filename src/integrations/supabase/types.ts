@@ -137,6 +137,47 @@ export type Database = {
           },
         ]
       }
+      certificates: {
+        Row: {
+          class_id: string | null
+          description: string | null
+          id: string
+          issued_at: string
+          issued_by: string | null
+          kind: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          class_id?: string | null
+          description?: string | null
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          kind: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          class_id?: string | null
+          description?: string | null
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          kind?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "certificates_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       class_enrollments: {
         Row: {
           class_id: string
@@ -315,6 +356,7 @@ export type Database = {
           class_id: string
           created_at: string
           description: string | null
+          extracted_text: string | null
           file_path: string | null
           id: string
           kind: string
@@ -328,6 +370,7 @@ export type Database = {
           class_id: string
           created_at?: string
           description?: string | null
+          extracted_text?: string | null
           file_path?: string | null
           id?: string
           kind: string
@@ -341,6 +384,7 @@ export type Database = {
           class_id?: string
           created_at?: string
           description?: string | null
+          extracted_text?: string | null
           file_path?: string | null
           id?: string
           kind?: string
