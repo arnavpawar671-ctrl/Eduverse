@@ -38,7 +38,7 @@ async function callAI(system: string, user: string) {
 
 export const generateQuiz = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((i: unknown) => QuizInput.parse(i))
+  .validator((i: unknown) => QuizInput.parse(i))
   .handler(async ({ data }) => {
     const out = await callAI(
       "You generate multiple-choice quizzes. Reply with valid JSON only.",
@@ -55,7 +55,7 @@ Return JSON: {"questions":[{"q":"...","options":["A","B","C","D"],"answer":0,"ex
 
 export const generateFlashcards = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((i: unknown) => FlashInput.parse(i))
+  .validator((i: unknown) => FlashInput.parse(i))
   .handler(async ({ data }) => {
     const out = await callAI(
       "You generate study flashcards. Reply with valid JSON only.",
@@ -67,3 +67,4 @@ Return JSON: {"cards":[{"front":"question or term","back":"answer or definition"
       : [];
     return { cards };
   });
+
