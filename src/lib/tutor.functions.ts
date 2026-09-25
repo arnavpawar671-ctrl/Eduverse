@@ -20,7 +20,7 @@ const SYSTEM_PROMPT = `You are EduVerse AI Tutor, a friendly and encouraging aca
 
 export const askTutor = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => InputSchema.parse(input))
+  .validator((input: unknown) => InputSchema.parse(input))
   .handler(async ({ data }) => {
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("AI is not configured. Missing LOVABLE_API_KEY.");
@@ -54,3 +54,4 @@ export const askTutor = createServerFn({ method: "POST" })
     const reply = json.choices?.[0]?.message?.content?.trim();
     return { reply: reply || "Sorry, I couldn't generate a response. Please try again." };
   });
+

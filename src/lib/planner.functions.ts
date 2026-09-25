@@ -15,7 +15,7 @@ Keep 3-6 tasks per day. Use short imperative tasks.`;
 
 export const generateStudyPlan = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => InputSchema.parse(input))
+  .validator((input: unknown) => InputSchema.parse(input))
   .handler(async ({ data, context }) => {
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("AI is not configured.");
@@ -62,3 +62,4 @@ Goals: ${data.goals}`;
     if (error) throw error;
     return row;
   });
+
